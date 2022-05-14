@@ -29,8 +29,6 @@ public class UserService {
     }
 
     public void updateUser(User user, Long id) {
-        ///проверить корректность метода
-
         user.setId(id);
         userRepository.save(user);
     }

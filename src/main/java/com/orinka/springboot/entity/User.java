@@ -1,15 +1,12 @@
 package com.orinka.springboot.entity;
 
-import lombok.*;
-
 import javax.persistence.*;
 
-@Data
 @Entity(name = "User")
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -24,7 +21,7 @@ public class User {
 
 
 
- /*   public User() {}
+   public User() {}
 
     public User(String firstName, String lastName, String job) {
         this.firstName = firstName;
@@ -69,6 +66,6 @@ public class User {
 
     public void setJob(String job) {
         this.job = job;
-    }*/
+    }
 
 }

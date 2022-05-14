@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping(value = "/users")
 public class UsersController {
 
     private final UserService userService;
 
     //Спринг внедряет через конструктор зависимость от userService
-    @Autowired
+    //@Autowired
     public UsersController(UserService userService) {
         this.userService = userService;
     }
@@ -57,7 +57,7 @@ public class UsersController {
         return "redirect:/users";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     public String delete (@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/users";
