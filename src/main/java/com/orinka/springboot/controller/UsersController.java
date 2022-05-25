@@ -22,18 +22,17 @@ import java.util.Set;
 @RequestMapping(value = "/users")
 public class UsersController {
 
-    @Autowired
+//    @Autowired
     private final UserServiceImp userService;
 
-    @Autowired
-    private RoleRepository roleRepository;
+/*    @Autowired
+    private RoleRepository roleRepository;*/
 
     @Autowired
     private RoleService roleService;
 
     //Спринг внедряет через конструктор зависимость от userService
-    @Autowired
-    public UsersController(UserServiceImp userService) {
+    public UsersController(@Autowired UserServiceImp userService) {
         this.userService = userService;
     }
 

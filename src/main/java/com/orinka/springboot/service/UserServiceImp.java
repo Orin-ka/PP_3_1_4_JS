@@ -26,13 +26,10 @@ import java.util.Set;
 @Service
 //@Slf4j
 //@RequiredArgsConstructor
-public class UserServiceImp implements UserService{
+public class UserServiceImp implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -43,8 +40,8 @@ public class UserServiceImp implements UserService{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("ROLE_USER"));
-        User startUser1 = new User("Olga", "Mironova", "seller", "user", "user" );
-        User startUser2 = new User("Mark", "Tarkovsky", "realtor", "admin", "admin" );
+        User startUser1 = new User("Olga", "Mironova2", "seller", "user2", "user" );
+        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin2", "admin" );
         Role role1 = roleRepository.saveAndFlush(new Role("ROLE_USER"));
         Role role2 = roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
 
@@ -54,14 +51,17 @@ public class UserServiceImp implements UserService{
         startUser1.setRoles(Collections.singleton(role1));
         startUser2.setRoles(Collections.singleton(role2));
 
-        userService.saveUser(startUser1);
-        userService.saveUser(startUser2);
+        userRepository.save(startUser1);
+        userRepository.save(startUser2);
 
-/*        Arrays.stream(EnumRole.values())
+/*      userService.saveUser(startUser1);
+        userService.saveUser(startUser2);*/
+
+/*
+      ------  Вариант 2----
+        Arrays.stream(EnumRole.values())
                 .map(x -> x.toString())
                 .forEach(x -> roleService.addRole(new Role(x)));
-
-
         User startUser = new User("admin", "admin", 3,"admin", "admin");
         startUser.addRoleToUser(roleService.findByName("ROLE_ADMIN"));
         userService.addUser(startUser);*/
