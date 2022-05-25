@@ -1,5 +1,6 @@
 package com.orinka.springboot;
 
+import com.orinka.springboot.entity.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

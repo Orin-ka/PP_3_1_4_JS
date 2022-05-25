@@ -1,13 +1,20 @@
 package com.orinka.springboot.entity;
 
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "users")
-public class User {
+@Data
+public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false, length = 30)
@@ -19,9 +26,19 @@ public class User {
     @Column(name = "job", length = 30)
     private String job;
 
+    @Column(name = "username", unique = true, length = 30)
+    private String username;
+
+    @Column(name = "password", length = 1000)
+    private String password;
 
 
-   public User() {}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    public User() {}
 
     public User(String firstName, String lastName, String job) {
         this.firstName = firstName;
@@ -29,43 +46,40 @@ public class User {
         this.job = job;
     }
 
-    public User(Long id, String firstName, String lastName, String job) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.job = job;
+    public User(String firstName, String lastName, String job, String username, String password) {
+        this(firstName, lastName, job);
+        this.username = username;
+        this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public String getLastName() {
-        return lastName;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }
