@@ -3,31 +3,58 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Пользователи</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<div>
-    <h1>Список пользователей</h1>
 
-    <table width="400" cellpadding="10">
-        <p > <a href="admin/users/new"> Создать нового пользователя </a> </p>
-        <tr><th>Id</th><th>First name</th><th>Last name</th><th>Job</th><th></th><th></th></tr>
-        <th:block th:each="user : ${allUsers}">
-            <tr><td><p th:text="${user.getId()}" /></td>
-                <td><a th:href="@{/users/{id}(id=${user.getId()})}"><p th:text="${user.getFirstName()}" /></a></td>
-                <td><p th:text="${user.getLastName()}" /></td>
-                <td><p th:text="${user.getJob()}" /></td>
-                <td><p th:text="${user.getUsername()}" /></td>
-                <td><p th:text="${user.getPassword()}" /></td>
-                <td><a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}"> Изменить </a></td>
-                <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
-                    <input type="submit" value="Удалить"/> </form> </td></tr>
-        </th:block><hr>
-        <p > <a href="/logout"> Выйти </a> </p>
-    </table>
+
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-1 bg-dark text-white fw-weight-bolder text-end"><a th:text="${user.getUsername()}">...</a></div>
+        <div class="col-10 bg-dark text-white fw-weight-bolder text-start"> with roles:<a th:text="${user.getRoles()}">...</a></div>
+        <div class="col-1 bg-dark text-grey text-end"><a href="/logout"> Logout </a></div>
+    </div>
+<div>
+
+
+</div>
+<div class="row">
+    <div class="col-md-2" >
+        <p> Admin </p>
+        <p> User </p>
+    </div>
+    <div class="col-md-10">
+        <h3>Admin panel</h3>
+        <p>Users table</p>
+        <p> <a href="admin/users/new"> New User </a> </p>
+        <h5>All users</h5>
+        <table class="container-fluid" cellpadding="10">
+
+            <tr><th>ID</th><th>First name</th><th>Last name</th><th>Job</th><th>Username</th><th>Role</th><th>Edit</th><th>Delete</th></tr>
+            <th:block th:each="user : ${allUsers}">
+                <tr><td><p th:text="${user.getId()}" /></td>
+                    <td><a th:href="@{/users/{id}(id=${user.getId()})}"><p th:text="${user.getFirstName()}" /></a></td>
+                    <td><p th:text="${user.getLastName()}" /></td>
+                    <td><p th:text="${user.getJob()}" /></td>
+                    <td><p th:text="${user.getUsername()}" /></td>
+                    <td><p th:text="${user.getRoles()}" /></td>
+                    <td><a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}"> Изменить </a></td>
+                    <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
+                        <input type="submit" value="Удалить"/> </form> </td></tr>
+            </th:block><hr>
+
+        </table>
+
 </div>
 
+</div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 </html>
