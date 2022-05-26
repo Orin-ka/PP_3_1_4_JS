@@ -8,7 +8,12 @@
 <h1>Пользователь: </h1>
 <p th:text="${ user.getId()}">VALUE</p>
 <p th:text="${ user.getFirstName()}">VALUE</p>
-<p th:text="${ user.getLastName()}">VALUE</p>
-<p th:text="${ user.getJob()}">VALUE</p>
+<p th:text="${ user.getLastName()}">VALUE</p><hr>
+
+<p th:text="${ user.getJob()}">VALUE</p><hr>
+<p th:text="${ user.getUsername()}">VALUE</p>
+<p th:text="${ user.getPassword()}">VALUE</p><hr>
+<p > <a href="/logout"> Выйти </a> </p>
+
 </body>
 </html>

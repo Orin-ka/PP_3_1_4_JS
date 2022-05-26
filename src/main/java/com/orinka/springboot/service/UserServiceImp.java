@@ -36,12 +36,12 @@ public class UserServiceImp implements UserService {
 
 
     @PostConstruct
-    void init() {
+        void init() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("ROLE_USER"));
-        User startUser1 = new User("Olga", "Mironova2", "seller", "user2", "user" );
-        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin2", "admin" );
+        User startUser1 = new User("Olga", "Mironova2", "seller", "user2", "user");
+        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin2", "admin");
         Role role1 = roleRepository.saveAndFlush(new Role("ROLE_USER"));
         Role role2 = roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
 
@@ -53,19 +53,8 @@ public class UserServiceImp implements UserService {
 
         userRepository.save(startUser1);
         userRepository.save(startUser2);
-
-/*      userService.saveUser(startUser1);
-        userService.saveUser(startUser2);*/
-
-/*
-      ------  Вариант 2----
-        Arrays.stream(EnumRole.values())
-                .map(x -> x.toString())
-                .forEach(x -> roleService.addRole(new Role(x)));
-        User startUser = new User("admin", "admin", 3,"admin", "admin");
-        startUser.addRoleToUser(roleService.findByName("ROLE_ADMIN"));
-        userService.addUser(startUser);*/
     }
+
 
     @Override
     public void createUser(User user) {
@@ -75,9 +64,7 @@ public class UserServiceImp implements UserService {
         roles.add(role);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //log.info("Saving new User with name: {}", user.getFirstName());
         userRepository.save(user);
-
     }
 
 

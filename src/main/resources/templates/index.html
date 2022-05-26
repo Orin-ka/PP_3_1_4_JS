@@ -8,19 +8,22 @@
 <body>
 <div>
     <h1>Список пользователей</h1>
-    <a href="/registration">Зарегистрироваться</a>
+
     <table width="400" cellpadding="10">
-        <p > <a href="/users/new"> Создать нового пользователя </a> </p>
+        <p > <a href="admin/users/new"> Создать нового пользователя </a> </p>
         <tr><th>Id</th><th>First name</th><th>Last name</th><th>Job</th><th></th><th></th></tr>
         <th:block th:each="user : ${allUsers}">
             <tr><td><p th:text="${user.getId()}" /></td>
                 <td><a th:href="@{/users/{id}(id=${user.getId()})}"><p th:text="${user.getFirstName()}" /></a></td>
                 <td><p th:text="${user.getLastName()}" /></td>
                 <td><p th:text="${user.getJob()}" /></td>
-                <td><a th:href="@{/users/{id}/edit(id=${user.getId()})}"> Изменить </a></td>
-                <td> <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+                <td><p th:text="${user.getUsername()}" /></td>
+                <td><p th:text="${user.getPassword()}" /></td>
+                <td><a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}"> Изменить </a></td>
+                <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
                     <input type="submit" value="Удалить"/> </form> </td></tr>
-        </th:block>
+        </th:block><hr>
+        <p > <a href="/logout"> Выйти </a> </p>
     </table>
 </div>
 

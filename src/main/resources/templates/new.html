@@ -8,7 +8,7 @@
 <body>
 <h1> Создать нового пользователя: </h1>
 
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
 
     <label for="name">Имя: </label>
     <input type="text" th:field="*{firstName}" id="name"/>
@@ -22,7 +22,17 @@
     <input type="text" th:field="*{job}" id="job"/>
     <br/>
 
+    <label for="username">login: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <br/>
+
+    <label for="password">Пароль: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+
     <input type="submit" value="Создать пользователя"/>
+    <hr>
+    <p > <a href="/logout"> Выйти </a> </p>
 
 </form>
 </body>
