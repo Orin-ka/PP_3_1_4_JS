@@ -40,8 +40,8 @@ public class UserServiceImp implements UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("ROLE_USER"));
-        User startUser1 = new User("Olga", "Mironova2", "seller", "user2", "user");
-        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin2", "admin");
+        User startUser1 = new User("Olga", "Mironova2", "seller", "user", "user");
+        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin", "admin");
         Role role1 = roleRepository.saveAndFlush(new Role("ROLE_USER"));
         Role role2 = roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
 
