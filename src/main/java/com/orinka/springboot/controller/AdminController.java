@@ -1,5 +1,7 @@
 package com.orinka.springboot.controller;
 
+import com.orinka.springboot.entity.EnumRole;
+import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.entity.User;
 import com.orinka.springboot.service.RoleServiceImp;
 import com.orinka.springboot.service.UserServiceImp;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -41,12 +46,16 @@ public class AdminController {
     @GetMapping(value = "/users/new")
     public  String newUser (Model model) {
         model.addAttribute("user", new User());
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(EnumRole.ROLE_USER));
+        roles.add(new Role(EnumRole.ROLE_ADMIN));
+        model.addAttribute("roles", roles);
         return "new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+    public String create(@ModelAttribute("user") User user, @ModelAttribute("roles")HashSet<Role> roles) {
+        userService.createUser(user, roles);
         return "redirect:/admin";
     }
 
@@ -65,6 +74,7 @@ public class AdminController {
     @DeleteMapping(value = "/users/{id}")
     public String delete (@PathVariable("id") Long id) {
         userService.deleteUserById(id);
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
+
 }

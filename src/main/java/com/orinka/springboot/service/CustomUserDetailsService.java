@@ -1,4 +1,3 @@
-/*
 package com.orinka.springboot.service;
 
 
@@ -18,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        return userRepository.findByFirstName(name);
+        return userRepository.getUserByUsername(name);
     }
-}*/
+}

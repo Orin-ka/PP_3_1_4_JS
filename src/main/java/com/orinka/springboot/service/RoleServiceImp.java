@@ -1,5 +1,6 @@
 package com.orinka.springboot.service;
 
+import com.orinka.springboot.entity.EnumRole;
 import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RoleServiceImp implements RoleService{
     }
 
     @Override
-    public Role getRoleByName(String name) {
-        return roleRepository.getRoleByName(name);
+    public Role getRoleByName(String name)  {
+        return new Role(EnumRole.valueOf(name));
     }
 }

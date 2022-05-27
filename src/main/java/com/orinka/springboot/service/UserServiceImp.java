@@ -1,5 +1,6 @@
 package com.orinka.springboot.service;
 
+import com.orinka.springboot.entity.EnumRole;
 import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.entity.User;
 import com.orinka.springboot.repository.RoleRepository;
@@ -39,17 +40,18 @@ public class UserServiceImp implements UserService {
         void init() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role("ROLE_USER"));
+        roles.add(new Role(EnumRole.ROLE_USER));
         User startUser1 = new User("Olga", "Mironova2", "seller", "user", "user");
         User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin", "admin");
-        Role role1 = roleRepository.saveAndFlush(new Role("ROLE_USER"));
-        Role role2 = roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
+        Role role1 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_USER));
+        Role role2 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_ADMIN));
 
         startUser1.setPassword(passwordEncoder.encode(startUser1.getPassword()));
         startUser2.setPassword(passwordEncoder.encode(startUser2.getPassword()));
 
-        startUser1.setRoles(Collections.singleton(role1));
-        startUser2.setRoles(Collections.singleton(role2));
+        startUser1.addRole(role1);
+        startUser2.addRole(role2);
+        startUser2.addRole(role1);
 
         userRepository.save(startUser1);
         userRepository.save(startUser2);
@@ -57,12 +59,13 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user, Set<Role> roles) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Set<Role> roles = new HashSet<>();
-        Role role = new Role("ROLE_USER");
-        roles.add(role);
-        user.setRoles(roles);
+
+        for (Role role: roles) {
+            user.addRole(role);
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -106,7 +109,7 @@ public class UserServiceImp implements UserService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName().toString()));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
 

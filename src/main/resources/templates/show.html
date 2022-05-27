@@ -2,18 +2,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Пользователь: просмотр</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
 </head>
 <body>
-<h1>Пользователь: </h1>
-<p th:text="${ user.getId()}">VALUE</p>
-<p th:text="${ user.getFirstName()}">VALUE</p>
-<p th:text="${ user.getLastName()}">VALUE</p><hr>
+<div class="container-fluid">
+    <div class="row bg-dark text-white">
+        <div class="col-1   text-end fw-weight-bolder " style="text-align: right"><h5><a th:text="${user.getUsername()}">...</a></h5></div>
+        <div class="col-10   fw-weight-bolder text-start"><h5> with roles: <a th:text="${user.getStringRoles()}">...</a></h5></div>
+        <div class="col-1  text-grey text-end fw-weight-bolder" style="color: #7a7c7e"><p><a href="/logout"> Logout </a></p></div>
+    </div>
 
-<p th:text="${ user.getJob()}">VALUE</p><hr>
-<p th:text="${ user.getUsername()}">VALUE</p>
-<p th:text="${ user.getPassword()}">VALUE</p><hr>
-<p > <a href="/logout"> Выйти </a> </p>
+    <div class="row">
+        <div class="col-md-2" >
+            <p> User </p>
+        </div>
+        <div class="col-md-10">
+            <h3>User-information page</h3>
+            <h5>About user</h5>
+            <table class="container-fluid" cellpadding="10">
+                <tr><th>ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Job</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                </tr>
+
+                <tr><th><p th:text="${user.getId()}" /></th>
+                    <td><p th:text="${user.getFirstName()}" /></td>
+                    <td><p th:text="${user.getLastName()}" /></td>
+                    <td><p th:text="${user.getJob()}" /></td>
+                    <td><p th:text="${user.getUsername()}" /></td>
+                    <td><p th:text="${user.getStringRoles()}" /></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 </html>
