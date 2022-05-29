@@ -46,17 +46,12 @@ public class AdminController {
     @GetMapping(value = "/users/new")
     public  String newUser (Model model) {
         model.addAttribute("user", new User());
-/*        Set<Role> roles = new HashSet<>();
-        roles.add(new Role(EnumRole.ROLE_USER));
-        roles.add(new Role(EnumRole.ROLE_ADMIN));
-        model.addAttribute("roles", roles);*/
-
         return "new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user /*, @ModelAttribute("roles")HashSet<Role> roles*/) {
-        userService.createUser(user);//, roles);
+    public String create(@ModelAttribute("user") User user) {
+        userService.createUser(user);
         return "redirect:/admin";
     }
 

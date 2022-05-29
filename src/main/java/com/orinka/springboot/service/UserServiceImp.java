@@ -93,7 +93,9 @@ public class UserServiceImp implements UserService {
         userRepository.save(user);
     }
 
+    //исправить ошибки, метод работает некорректно
     public void updateUser(User user, Long id) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setId(id);
         userRepository.save(user);
     }

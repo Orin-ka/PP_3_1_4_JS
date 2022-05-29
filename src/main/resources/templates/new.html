@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en" >
@@ -17,6 +12,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     -->
 </head>
+
 <body>
 
 <!--  Header   -->
@@ -54,74 +50,76 @@
 
 
         <!--table-hover   cellpadding="10"  style="padding: 10px; margin-left: 15px; margin-top: 15px;"-->
-        <table>
+ <!--       <table>
+            <tr>
+                <th>-->
+                    <h5 style="margin-left: 15px; margin-top: 15px;">Add new user</h5>
+<!--                </th>
+            </tr>
 
-            <tr><h5 style="margin-left: 15px; margin-top: 15px;">Add new user</h5></tr>
+             <tr> &lt;!&ndash;строка&ndash;&gt;
+                 <td> столбец-->
+                    <!--Форма добавления юзера-->
+                    <!-- <div class="html-editor-align-center"form-group popup>-->
+                    <div class="container text-center">
+                        <div class="row justify-content-center">
+                            <form th:method="POST" th:action="@{/admin/}" th:object="${user}">
 
-             <tr>  <!--Форма добавления юзера-->
-            <div class="form-group popup">
-            <form th:method="POST" th:action="@{/admin/}" th:object="${user}">
+                            <label for="name">Имя: </label><br/>
+                            <input type="text" th:field="*{firstName}" id="name"/>
+                            <br/>
 
-                <label for="name">Имя: </label><br/>
-                <input type="text" th:field="*{firstName}" id="name"/>
-                <br/>
+                            <label for="lastname">Фамилия: </label><br/>
+                            <input type="text" th:field="*{lastName}" id="lastname"/>
+                            <br/>
 
-                <label for="lastname">Фамилия: </label><br/>
-                <input type="text" th:field="*{lastName}" id="lastname"/>
-                <br/>
+                            <label for="job">Профессия: </label><br/>
+                            <input type="text" th:field="*{job}" id="job"/>
+                            <br/>
 
-                <label for="job">Профессия: </label><br/>
-                <input type="text" th:field="*{job}" id="job"/>
-                <br/>
+                            <label for="username">login: </label><br/>
+                            <input type="text" th:field="*{username}" id="username"/>
+                            <br/>
 
-                <label for="username">login: </label><br/>
-                <input type="text" th:field="*{username}" id="username"/>
-                <br/>
+                            <label for="password">Пароль: </label><br/>
+                            <input type="password" th:field="*{password}" id="password"/>
+                            <br/>
 
-                <label for="password">Пароль: </label><br/>
-                <input type="password" th:field="*{password}" id="password"/>
-                <br/>
+                            <!-- <label for="roles">Роль: </label><br/>
+                            <select class="custom-select" size="2" multiple  id="roles"  th:field="*{roles}">
+                            <option value="ROLE_ADMIN">ADMIN</option>
+                            <option th:value="${role.getName()}" selected="selected">USER</option>
+                            </select><br/>-->
 
-
-<!--                <label for="roles">Роль: </label><br/>
-                <select class="custom-select" size="2" multiple  id="roles"  th:field="*{roles}">
-                    <option value="ROLE_ADMIN">ADMIN</option>
-                    <option th:value="${role.getName()}" selected="selected">USER</option>
-                </select><br/>-->
-
-                <label for="roles">Roles</label><br>
-                <select class="custom-select" name="selectedRoles" id="roles" size="2" multiple th:field="*{roles}">
-                    <option value="1">ADMIN</option>
-                    <option value="2">USER</option>
-                </select><br><br>
+                            <label for="roles">Roles</label><br>
+                            <select class="custom-select" name="selectedRoles" id="roles" size="2" multiple th:field="*{roles}">
+                            <option value="1">ADMIN</option>
+                            <option value="2">USER</option>
+                            </select><br><br>
 
 
-<!--                <label for="roles">Роль: </label><br/>
-                <select class="custom-select" id="roles" name="roles" size="2" multiple="multiple">
-                    <th:block th:each="role : ${roles}" th:object="${roles}"   >
-                        <option
+                            <!--         <label for="roles">Роль: </label><br/>
+                            <select class="custom-select" id="roles" name="roles" size="2" multiple="multiple">
+                            <th:block th:each="role : ${roles}" th:object="${roles}"   >
+                            <option
 
                             th:value="${role.name}"
                             th:text="${role.name}">
-                        </option>
-                    </th:block>-->
+                            </option>
+                            </th:block>-->
 
-                           <!-- th:selected="${servisAttribute.roles.contains(role)}"-->
+                            <!-- th:selected="${servisAttribute.roles.contains(role)}"-->
 
-
-
-
-                <input type="submit" value="Add new user" class="btn btn-success"/>
+                            <input type="submit" value="Add new user" class="btn btn-success"/>
 
 
 
-            </form>
-            </div>
+                            </form>
+                        </div>
+                    </div>
+                <!-- </td>
              </tr>
-
-
-
-        </table>
+        </table>-->
     </div>
 
 </div>

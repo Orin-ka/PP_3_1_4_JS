@@ -26,7 +26,7 @@ public class Role implements GrantedAuthority {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
    // @Transient //не пишет в БД
-    Set<User> users;// = new HashSet<>();
+    Set<User> users;
 
     public Role() {}
     public Role(EnumRole role) {

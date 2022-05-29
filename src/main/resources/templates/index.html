@@ -43,12 +43,12 @@
                 <a class="nav-link active" href="#">Users table</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin/users/new">New User</a>
+                <a class="nav-link" href="/admin/users/new">New User</a>
             </li>
         </ul>
 
 
-        <!--table-hover   cellpadding="10"  style="padding: 10px; margin-left: 15px; margin-top: 15px;"-->
+
 <table>
 
     <tr><h5 style="margin-left: 15px; margin-top: 15px;">All users</h5></tr>
@@ -57,47 +57,142 @@
             <tr><th>ID</th><th>First name</th><th>Last name</th><th>Job</th><th>Username</th><th>Role</th><th>Edit</th><th>Delete</th></tr>
             <th:block th:each="user : ${allUsers}">
                 <tr><td><p th:text="${user.getId()}" /></td>
-                    <td><a th:href="@{admin/users/{id}(id=${user.getId()})}"><p th:text="${user.getFirstName()}" /></a></td>
+                    <td><p th:text="${user.getFirstName()}" /></td>
                     <td><p th:text="${user.getLastName()}" /></td>
                     <td><p th:text="${user.getJob()}" /></td>
                     <td><p th:text="${user.getUsername()}" /></td>
                     <td><p th:text="${user.getStringRoles()}" /></td>
                     <!--Кнопки Edit и Delete-->
+<!--
+                    Старый вариант кнопки Edit без модального окна
                     <td> <form th:method="GET" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
-                        <input type="submit" value="Edit" class="btn btn-info"/> </form> </td>
-                    <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
-                        <input type="submit" value="Delete" class="btn btn-danger"/> </form> </td></tr>
+                        <input type="submit" value="Edit" class="btn btn-info"/> </form> </td>-->
+
+                    <td>
+                        <!-- DELETE-Кнопка-триггер модального окна -->
+                        <button type="button" class="btn btn-primary btn-info"
+                                data-toggle="modal"
+                                th:attr="data-target='#EditModal'+ ${user.getId()}">
+                            Edit
+                        </button>
+
+                        <!-- Модальное окно -->
+                        <div class="modal fade" th:attr="id='EditModal'+ ${user.getId()}" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content text-center">
+
+                                    <!--    Не работает ТУТ    -->
+
+                                    <form method="POST" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="EditModalLabel">Edit user</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" >
+
+                                        <label for="id1">ID: </label><br/>
+                                        <input id="id1" type="text" disabled th:value="${user.getId()}" />
+                                        <br/>
+
+                                        <label for="name1">FirstName: </label><br/>
+                                        <input id="name1" type="text"  th:value="${user.getFirstName()}" />
+                                        <br/>
+
+                                        <label for="lastname1">LastName: </label><br/>
+                                        <input id="lastname1" type="text"  th:value="${user.getLastName()}" />
+                                        <br/>
+
+                                        <label for="job1">Job: </label><br/>
+                                        <input id="job1" type="text"  th:value="${user.getJob()}" />
+                                        <br/>
+
+                                        <label for="roles1">Roles: </label><br/>
+                                        <!--Заменить на селект-->
+                                        <input id="roles1" type="text"  th:value="${user.getStringRoles()}" />
+                                        <br/>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <!--<form th:method="PATCH" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">-->
+                                            <button type="submit" class="btn btn-primary btn-info">Edit</button><!--</form>-->
+                                        <input type="submit" class="btn btn-primary" value="Edit"
+                                               id="updateButton">
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+
+
+
+
+                    <!-- старый вариант кнопки Delete, без модального окна
+                        <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
+                        <input type="submit" value="Delete" class="btn btn-danger"/> </form> </td></tr>-->
+
+                    <td>
+                    <!-- DELETE-Кнопка-триггер модального окна -->
+                         <button type="button" class="btn btn-primary btn-danger"
+                                data-toggle="modal"
+                                th:attr="data-target='#DeleteModal'+ ${user.getId()}">
+                            Delete
+                        </button>
+
+                    <!-- Модальное окно -->
+                    <div class="modal fade" th:attr="id='DeleteModal'+ ${user.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" >
+
+                                    <label for="id">ID: </label><br/>
+                                    <input id="id" type="text" disabled th:value="${user.getId()}" />
+                                    <br/>
+
+                                    <label for="name">FirstName: </label><br/>
+                                    <input id="name" type="text" disabled th:value="${user.getFirstName()}" />
+                                    <br/>
+
+                                    <label for="lastname">LastName: </label><br/>
+                                    <input id="lastname" type="text" disabled th:value="${user.getLastName()}" />
+                                    <br/>
+
+                                    <label for="job">Job: </label><br/>
+                                    <input id="job" type="text" disabled th:value="${user.getJob()}" />
+                                    <br/>
+
+                                    <label for="roles">Roles: </label><br/>
+                                    <input id="roles" type="text" disabled th:value="${user.getStringRoles()}" />
+                                    <br/>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
+                                        <button type="submit" class="btn btn-primary btn-danger">Delete</button></form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </td>
+
+                </tr>
             </th:block><hr>
 
         </table>
-</table>
+    </table>
     </div>
 
-    <!-- Кнопка-триггер модального окна -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Запустить демонстрацию модального окна
-    </button>
-
-    <!-- Модальное окно -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 
