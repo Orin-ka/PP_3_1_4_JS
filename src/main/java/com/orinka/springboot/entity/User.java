@@ -1,6 +1,6 @@
 package com.orinka.springboot.entity;
 
-import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "User")
+@Entity
 @Table(name = "users")
-@Data
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,10 @@ public class User implements UserDetails {
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)//связанные объекты загружаются вместе с родительскими
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//связанные объекты загружаются вместе с родительскими
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
@@ -54,13 +56,88 @@ public class User implements UserDetails {
 
     }
 
+    public User(String firstName, String lastName, String job, String username, String password, Set<Role> roles) {
+        this(firstName, lastName, job, username, password);
+
+        for (Role role: roles) {
+            this.addRole(role);
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    //добавить роль................
     public void addRole(Role role) {
         this.roles.add(role);
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public String getStringRoles() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role : roles) {
+            sb.append(role.getName().toString().substring(5));
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return roles;
     }
 
     @Override
@@ -88,13 +165,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    public String getStringRoles() {
-        StringBuilder sb = new StringBuilder();
-        for (Role role : roles) {
-            sb.append(role.toString());
-            sb.append(" ");
-        }
-        return sb.toString();
-    }
+
 
 }

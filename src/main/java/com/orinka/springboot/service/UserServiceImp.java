@@ -35,23 +35,24 @@ public class UserServiceImp implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @PostConstruct
         void init() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(EnumRole.ROLE_USER));
-        User startUser1 = new User("Olga", "Mironova2", "seller", "user", "user");
-        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "admin", "admin");
-        Role role1 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_USER));
-        Role role2 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_ADMIN));
+        User startUser1 = new User("Olga", "Mironova2", "seller", "admin", "admin");
+        User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "user", "user");
+        Role role1 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_ADMIN));
+        Role role2 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_USER));
 
         startUser1.setPassword(passwordEncoder.encode(startUser1.getPassword()));
         startUser2.setPassword(passwordEncoder.encode(startUser2.getPassword()));
 
         startUser1.addRole(role1);
+        startUser1.addRole(role2);
         startUser2.addRole(role2);
-        startUser2.addRole(role1);
 
         userRepository.save(startUser1);
         userRepository.save(startUser2);
@@ -59,8 +60,12 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public void createUser(User user, Set<Role> roles) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public void createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+ /*   public void createUser(User user, Set<Role> roles) {
 
         for (Role role: roles) {
             user.addRole(role);
@@ -68,7 +73,7 @@ public class UserServiceImp implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
+    }*/
 
 
     @Override
@@ -115,8 +120,10 @@ public class UserServiceImp implements UserService {
 
     }
 
-    // переопределить
-   // void update(User user, Set<Role> roles);
+
+    public void update(User user, Set<Role> roles) {
+        userRepository.getUserByUsername(user.getUsername()).setRoles(roles);
+    }
 }
 
 

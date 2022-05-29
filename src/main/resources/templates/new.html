@@ -82,17 +82,21 @@
                 <input type="password" th:field="*{password}" id="password"/>
                 <br/>
 
-                <!--<label for="roles">Роль: </label><br/>
-                <input type="text" th:field="*{roles}" id="roles"/>
-                <br/>-->
 
-               <!-- <label for="roles">Роль: </label><br/>
+<!--                <label for="roles">Роль: </label><br/>
                 <select class="custom-select" size="2" multiple  id="roles"  th:field="*{roles}">
                     <option value="ROLE_ADMIN">ADMIN</option>
-                    <option th:value="${role.getName()}" value="ROLE_USER" selected="selected">USER</option>
+                    <option th:value="${role.getName()}" selected="selected">USER</option>
                 </select><br/>-->
 
-                <label for="roles">Роль: </label><br/>
+                <label for="roles">Roles</label><br>
+                <select class="custom-select" name="selectedRoles" id="roles" size="2" multiple th:field="*{roles}">
+                    <option value="1">ADMIN</option>
+                    <option value="2">USER</option>
+                </select><br><br>
+
+
+<!--                <label for="roles">Роль: </label><br/>
                 <select class="custom-select" id="roles" name="roles" size="2" multiple="multiple">
                     <th:block th:each="role : ${roles}" th:object="${roles}"   >
                         <option
@@ -100,12 +104,12 @@
                             th:value="${role.name}"
                             th:text="${role.name}">
                         </option>
-                    </th:block>
+                    </th:block>-->
 
                            <!-- th:selected="${servisAttribute.roles.contains(role)}"-->
 
-                </select>
-                <br/>
+
+
 
                 <input type="submit" value="Add new user" class="btn btn-success"/>
 

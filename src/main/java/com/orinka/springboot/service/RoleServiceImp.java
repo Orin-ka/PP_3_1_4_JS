@@ -21,6 +21,11 @@ public class RoleServiceImp implements RoleService{
 
     @Override
     public Role getRoleByName(String name)  {
-        return new Role(EnumRole.valueOf(name));
+        return roleRepository.getRoleByName(name);
     }
+
+    public Role getRoleById(Long id) {
+        return roleRepository.getRoleById(id);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.orinka.springboot.configs;
 
 import com.orinka.springboot.service.UserService;
+import com.orinka.springboot.service.UserServiceImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImp userService) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
     }
