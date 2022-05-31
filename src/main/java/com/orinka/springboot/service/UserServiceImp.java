@@ -1,10 +1,12 @@
 package com.orinka.springboot.service;
 
+import com.orinka.springboot.dao.UserDao;
 import com.orinka.springboot.entity.EnumRole;
 import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.entity.User;
 import com.orinka.springboot.repository.RoleRepository;
 import com.orinka.springboot.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserDao userDao;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -93,11 +97,21 @@ public class UserServiceImp implements UserService {
         userRepository.save(user);
     }
 
-    //исправить ошибки, метод работает некорректно
-    public void updateUser(User user, Long id) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setId(id);
-        userRepository.save(user);
+
+    @Override
+    public void update(User user) {
+        userDao.update(user);
+    }
+
+    public void update(User user, Long id) {
+        if ((user.getFirstName() != null)&&(!user.getFirstName().equals(userRepository.getUserById(id).getFirstName()))) {
+            userRepository.getUserById(id).setFirstName(user.getFirstName());
+        }
+    }
+
+    @Override
+    public void update(User user, Set<Role> roles) {
+        userRepository.getUserByUsername(user.getUsername()).setRoles(roles);
     }
 
     public void deleteUserById(Long id) {
@@ -123,9 +137,7 @@ public class UserServiceImp implements UserService {
     }
 
 
-    public void update(User user, Set<Role> roles) {
-        userRepository.getUserByUsername(user.getUsername()).setRoles(roles);
-    }
+
 }
 
 

@@ -17,8 +17,8 @@
 <!--  Header   -->
 <div class="container-fluid">
     <div class="row bg-dark text-white">
-        <div class="col-1   text-end fw-weight-bolder " style="text-align: right"><h5><a th:text="${user.getUsername()}">...</a></h5></div>
-        <div class="col-10  text-start"><h5> with roles: <a th:text="${user.getStringRoles()}">...</a></h5></div>
+        <div class=" col-1  text-end fw-weight-bolder " style="text-align: right"><h5><a th:text="${currentUser.getUsername()}">...</a></h5></div>
+        <div class="col-10  text-start"><h5> with roles: <a th:text="${currentUser.getStringRoles()}">...</a></h5></div>
         <div class="col-1  text-grey text-end fw-weight-bolder" style="color: #7a7c7e"><p><a href="/logout" class="alert-link"> Logout </a></p></div>
     </div>
 </div>
@@ -54,43 +54,51 @@
     <tr><h5 style="margin-left: 15px; margin-top: 15px;">All users</h5></tr>
         <table class=" table table-striped table-hover container-fluid"  >
            <!-- <caption></caption>-->
-            <tr><th>ID</th><th>First name</th><th>Last name</th><th>Job</th><th>Username</th><th>Role</th><th>Edit</th><th>Delete</th></tr>
-            <th:block th:each="user : ${allUsers}">
-                <tr><td><p th:text="${user.getId()}" /></td>
+            <tr><th>ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Job</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="user : ${allUsers}">
+                    <td><p th:text="${user.getId()}" /></td>
                     <td><p th:text="${user.getFirstName()}" /></td>
                     <td><p th:text="${user.getLastName()}" /></td>
                     <td><p th:text="${user.getJob()}" /></td>
                     <td><p th:text="${user.getUsername()}" /></td>
                     <td><p th:text="${user.getStringRoles()}" /></td>
-                    <!--Кнопки Edit и Delete-->
+
 <!--
                     Старый вариант кнопки Edit без модального окна
                     <td> <form th:method="GET" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
                         <input type="submit" value="Edit" class="btn btn-info"/> </form> </td>-->
 
                     <td>
-                        <!-- DELETE-Кнопка-триггер модального окна -->
+                        <!-- EDIT-Кнопка-триггер модального окна -->
                         <button type="button" class="btn btn-primary btn-info"
                                 data-toggle="modal"
-                                th:attr="data-target='#EditModal'+ ${user.getId()}">
+                                th:attr="data-target='#EditModal'+ ${user.getId()} ">
                             Edit
                         </button>
 
                         <!-- Модальное окно -->
-                        <div class="modal fade" th:attr="id='EditModal'+ ${user.getId()}" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content text-center">
+                        <div class="modal fade" th:attr="id='EditModal'+ ${user.getId()} " tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-content text-center">
+                                <!--    Не работает ТУТ    -->
+                                <form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}" >
 
-                                    <!--    Не работает ТУТ    -->
-
-                                    <form method="POST" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
-                                    <div class="modal-header">
+                                    <div class = "modal-header " >
                                         <h5 class="modal-title" id="EditModalLabel">Edit user</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" >
+
+                                    <div class="modal-body"  >
+
 
                                         <label for="id1">ID: </label><br/>
                                         <input id="id1" type="text" disabled th:value="${user.getId()}" />
@@ -104,25 +112,38 @@
                                         <input id="lastname1" type="text"  th:value="${user.getLastName()}" />
                                         <br/>
 
-                                        <label for="job1">Job: </label><br/>
+                                        <!--   <label for="job1">Job: </label><br/>
                                         <input id="job1" type="text"  th:value="${user.getJob()}" />
                                         <br/>
 
-                                        <label for="roles1">Roles: </label><br/>
-                                        <!--Заменить на селект-->
-                                        <input id="roles1" type="text"  th:value="${user.getStringRoles()}" />
+                                        <label for="username1">Username: </label><br/>
+                                        <input id="username1" type="text"  th:value="${user.getUsername()}"/>
+                                        <br/>-->
+
+                                        <!--<label for="password">Password: </label><br/>
+                                        <input id="password" type="password"   />
                                         <br/>
+-->
+
+                                        <!--Заменить на селект-->
+                                        <!--<input id="roles1" type="text"  th:value="${user.getStringRoles()}" />
+                                        <br/>-->
+                                        <!--    <label for="roles1">Roles:</label><br>
+                                        <select class="custom-select" name="selectedRoles" id="roles1" size="2" multiple>
+                                                &lt;!&ndash;th:field="*{roles}">&ndash;&gt;
+                                            <option value="1">ADMIN</option>
+                                            <option value="2">USER</option>
+                                        </select><br><br>-->
 
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <!--<form th:method="PATCH" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">-->
-                                            <button type="submit" class="btn btn-primary btn-info">Edit</button><!--</form>-->
-                                        <input type="submit" class="btn btn-primary" value="Edit"
-                                               id="updateButton">
+
+                                        <button type="submit" class="btn btn-primary btn-info">Edit</button>
+
                                     </div>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </td>
@@ -144,7 +165,10 @@
                         </button>
 
                     <!-- Модальное окно -->
-                    <div class="modal fade" th:attr="id='DeleteModal'+ ${user.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade"
+                         th:attr="id='DeleteModal'+ ${user.getId()}" tabindex="-1"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content text-center">
                                 <div class="modal-header">
@@ -187,7 +211,7 @@
                     </td>
 
                 </tr>
-            </th:block><hr>
+            </trth:block><hr>
 
         </table>
     </table>

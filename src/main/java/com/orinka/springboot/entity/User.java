@@ -18,10 +18,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 30)
+    @Column(name = "name", length = 30)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 30)
+    @Column(name = "last_name", length = 30)
     private String lastName;
 
     @Column(name = "job", length = 30)

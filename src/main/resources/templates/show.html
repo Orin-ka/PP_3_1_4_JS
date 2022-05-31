@@ -17,8 +17,8 @@
 <!--  Header   -->
 <div class="container-fluid">
     <div class="row bg-dark text-white">
-        <div class="col-1   text-end fw-weight-bolder " style="text-align: right"><h5><a th:text="${user.getUsername()}">...</a></h5></div>
-        <div class="col-10  text-start"><h5> with roles: <a th:text="${user.getStringRoles()}">...</a></h5></div>
+        <div class="col-1   text-end fw-weight-bolder " style="text-align: right"><h5><a th:text="${currentUser.getUsername()}">...</a></h5></div>
+        <div class="col-10  text-start"><h5> with roles: <a th:text="${currentUser.getStringRoles()}">...</a></h5></div>
         <div class="col-1  text-grey text-end fw-weight-bolder" style="color: #7a7c7e"><p><a href="/logout" class="alert-link"> Logout </a></p></div>
     </div>
 </div>
@@ -45,12 +45,12 @@
                     <th>Role</th>
                 </tr>
 
-                <tr><th><p th:text="${user.getId()}" /></th>
-                    <td><p th:text="${user.getFirstName()}" /></td>
-                    <td><p th:text="${user.getLastName()}" /></td>
-                    <td><p th:text="${user.getJob()}" /></td>
-                    <td><p th:text="${user.getUsername()}" /></td>
-                    <td><p th:text="${user.getStringRoles()}" /></td>
+                <tr><th><p th:text="${currentUser.getId()}" /></th>
+                    <td><p th:text="${currentUser.getFirstName()}" /></td>
+                    <td><p th:text="${currentUser.getLastName()}" /></td>
+                    <td><p th:text="${currentUser.getJob()}" /></td>
+                    <td><p th:text="${currentUser.getUsername()}" /></td>
+                    <td><p th:text="${currentUser.getStringRoles()}" /></td>
                 </tr>
 
             </table>

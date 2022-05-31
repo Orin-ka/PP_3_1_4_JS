@@ -1,7 +1,5 @@
 package com.orinka.springboot.controller;
 
-import com.orinka.springboot.entity.EnumRole;
-import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.entity.User;
 import com.orinka.springboot.service.RoleServiceImp;
 import com.orinka.springboot.service.UserServiceImp;
@@ -11,9 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -28,11 +23,11 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping()
+    @GetMapping("")
     public String allUsers(@CurrentSecurityContext(expression = "authentication?.name") String username, ModelMap model) {
 
         model.addAttribute("allUsers", userService.getAllUsers());
-        model.addAttribute("user", userService.getUserByUsername(username));
+        model.addAttribute("currentUser", userService.getUserByUsername(username));
         model.addAttribute("allRoles", roleService.findAll());
         return "index";
     }
@@ -42,6 +37,12 @@ public class AdminController {
         model.addAttribute("user", userService.getUserById(id));
         return "show";
     }
+
+/*    @GetMapping(value = "/edit/{id}")
+    public String getUser(@PathVariable("id")Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "index";
+    }*/
 
     @GetMapping(value = "/users/new")
     public  String newUser (Model model) {
@@ -55,18 +56,28 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value ="/users/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+/*--------------------------------------*/
+
+    @GetMapping(value = "/edit/{id}")
+    public String updateUser(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.getUserById(id));
-        return "edit";
+       // model.addAttribute(userService.getUserById(id));
+        return "index";
     }
 
-    @PatchMapping("/users/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userService.updateUser(user, id);
+/*    @GetMapping(value ="/users/{id}/edit")
+    public String edit(Model model, @PathVariable("id") long id) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "redirect:/admin";     //"edit";
+    }*/
+
+    @PatchMapping(value = "/edit/{id}")
+    public String update(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
+        userService.update(user, id);
         return "redirect:/admin";
     }
 
+/*------------------------------------------*/
     @DeleteMapping(value = "/users/{id}")
     public String delete (@PathVariable("id") Long id) {
         userService.deleteUserById(id);

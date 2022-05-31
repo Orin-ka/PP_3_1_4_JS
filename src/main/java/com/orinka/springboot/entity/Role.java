@@ -1,10 +1,7 @@
 package com.orinka.springboot.entity;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,7 +22,7 @@ public class Role implements GrantedAuthority {
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-   // @Transient //не пишет в БД
+   // @Transient
     Set<User> users;
 
     public Role() {}

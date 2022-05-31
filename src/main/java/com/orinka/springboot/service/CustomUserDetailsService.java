@@ -1,3 +1,4 @@
+/*
 package com.orinka.springboot.service;
 
 
@@ -20,3 +21,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.getUserByUsername(name);
     }
 }
+*/
