@@ -104,9 +104,25 @@ public class UserServiceImp implements UserService {
     }
 
     public void update(User user, Long id) {
-        if ((user.getFirstName() != null)&&(!user.getFirstName().equals(userRepository.getUserById(id).getFirstName()))) {
+        if (user.getFirstName() != null) {
             userRepository.getUserById(id).setFirstName(user.getFirstName());
         }
+        if (user.getLastName() != null) {
+            userRepository.getUserById(id).setLastName(user.getLastName());
+        }
+        if (user.getJob() != null) {
+            userRepository.getUserById(id).setJob(user.getJob());
+        }
+        if (user.getUsername() != null) { //добавить логику проверки на уникальность
+            userRepository.getUserById(id).setUsername(user.getUsername());
+        }
+        if (user.getPassword() != null) {
+            userRepository.getUserById(id).setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRoles() != null) {
+            userRepository.getUserById(id).setRoles(user.getRoles());
+        }
+
     }
 
     @Override

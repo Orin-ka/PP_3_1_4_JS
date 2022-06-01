@@ -66,11 +66,6 @@ public class Role implements GrantedAuthority {
         return name.toString();
     }
 
- /*   @Override
-    public String toString() {
-        return  name.name().substring(5);
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

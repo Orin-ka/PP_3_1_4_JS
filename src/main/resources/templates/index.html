@@ -62,6 +62,7 @@
                 <th>Role</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                <th> </th>
             </tr>
             <tr th:each="user : ${allUsers}">
                     <td><p th:text="${user.getId()}" /></td>
@@ -87,7 +88,7 @@
                         <!-- Модальное окно -->
                         <div class="modal fade" th:attr="id='EditModal'+ ${user.getId()} " tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-content text-center">
-                                <!--    Не работает ТУТ    -->
+
                                 <form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}" >
 
                                     <div class = "modal-header " >
@@ -97,43 +98,38 @@
                                         </button>
                                     </div>
 
-                                    <div class="modal-body"  >
+                                    <div class="modal-body">
 
 
                                         <label for="id1">ID: </label><br/>
-                                        <input id="id1" type="text" disabled th:value="${user.getId()}" />
+                                        <input id="id1" type="text" class="form-control" disabled th:value="${user.getId()}" />
                                         <br/>
 
                                         <label for="name1">FirstName: </label><br/>
-                                        <input id="name1" type="text"  th:value="${user.getFirstName()}" />
+                                        <input id="name1" name="firstName" type="text" class="form-control" th:value="${user.getFirstName()}" />
                                         <br/>
 
                                         <label for="lastname1">LastName: </label><br/>
-                                        <input id="lastname1" type="text"  th:value="${user.getLastName()}" />
+                                        <input id="lastname1" name="lastName" type="text" class="form-control" th:value="${user.getLastName()}" />
                                         <br/>
 
-                                        <!--   <label for="job1">Job: </label><br/>
-                                        <input id="job1" type="text"  th:value="${user.getJob()}" />
+                                           <label for="job1">Job: </label><br/>
+                                        <input id="job1" type="text" name="job" class="form-control" th:value="${user.getJob()}" />
                                         <br/>
 
                                         <label for="username1">Username: </label><br/>
-                                        <input id="username1" type="text"  th:value="${user.getUsername()}"/>
-                                        <br/>-->
-
-                                        <!--<label for="password">Password: </label><br/>
-                                        <input id="password" type="password"   />
+                                        <input id="username1" type="text" name="username" class="form-control" th:value="${user.getUsername()}"/>
                                         <br/>
--->
 
-                                        <!--Заменить на селект-->
-                                        <!--<input id="roles1" type="text"  th:value="${user.getStringRoles()}" />
-                                        <br/>-->
-                                        <!--    <label for="roles1">Roles:</label><br>
-                                        <select class="custom-select" name="selectedRoles" id="roles1" size="2" multiple>
-                                                &lt;!&ndash;th:field="*{roles}">&ndash;&gt;
+                                        <label for="password">Password: </label><br/>
+                                        <input id="password" class="form-control" type="password" name="password"  />
+                                        <br/>
+
+                                        <label for="roles1">Roles:</label><br>
+                                        <select class="custom-select" name="roles" id="roles1" size="2" multiple>
                                             <option value="1">ADMIN</option>
                                             <option value="2">USER</option>
-                                        </select><br><br>-->
+                                        </select><br><br>
 
                                     </div>
 
@@ -150,9 +146,7 @@
 
 
 
-
-
-                    <!-- старый вариант кнопки Delete, без модального окна
+                        <!-- старый вариант кнопки Delete, без модального окна
                         <td> <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
                         <input type="submit" value="Delete" class="btn btn-danger"/> </form> </td></tr>-->
 
@@ -165,7 +159,7 @@
                         </button>
 
                     <!-- Модальное окно -->
-                    <div class="modal fade"
+                        <div class="modal fade"
                          th:attr="id='DeleteModal'+ ${user.getId()}" tabindex="-1"
                          aria-labelledby="exampleModalLabel"
                          aria-hidden="true">
@@ -207,11 +201,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
                     </td>
 
                 </tr>
-            </trth:block><hr>
+            </tr>
 
         </table>
     </table>

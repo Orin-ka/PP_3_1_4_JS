@@ -38,12 +38,6 @@ public class AdminController {
         return "show";
     }
 
-/*    @GetMapping(value = "/edit/{id}")
-    public String getUser(@PathVariable("id")Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "index";
-    }*/
-
     @GetMapping(value = "/users/new")
     public  String newUser (Model model) {
         model.addAttribute("user", new User());
@@ -56,20 +50,11 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-/*--------------------------------------*/
-
     @GetMapping(value = "/edit/{id}")
     public String updateUser(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.getUserById(id));
-       // model.addAttribute(userService.getUserById(id));
         return "index";
     }
-
-/*    @GetMapping(value ="/users/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "redirect:/admin";     //"edit";
-    }*/
 
     @PatchMapping(value = "/edit/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
@@ -77,7 +62,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-/*------------------------------------------*/
     @DeleteMapping(value = "/users/{id}")
     public String delete (@PathVariable("id") Long id) {
         userService.deleteUserById(id);
