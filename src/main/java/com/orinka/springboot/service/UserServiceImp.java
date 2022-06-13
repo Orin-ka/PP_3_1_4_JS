@@ -6,9 +6,6 @@ import com.orinka.springboot.entity.Role;
 import com.orinka.springboot.entity.User;
 import com.orinka.springboot.repository.RoleRepository;
 import com.orinka.springboot.repository.UserRepository;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,16 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Transactional
+
 @Service
-//@Slf4j
-//@RequiredArgsConstructor
+
 public class UserServiceImp implements UserService {
 
     @Autowired
@@ -43,20 +38,21 @@ public class UserServiceImp implements UserService {
 
 
     @PostConstruct
+    @Transactional
         void init() {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(EnumRole.ROLE_USER));
+        roles.add(new Role("ROLE_USER"));
         User startUser1 = new User("Olga", "Mironova2", "seller", "admin", "admin");
         User startUser2 = new User("Mark", "Tarkovsky2", "realtor", "user", "user");
-        Role role1 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_ADMIN));
-        Role role2 = roleRepository.saveAndFlush(new Role(EnumRole.ROLE_USER));
+        Role role1 = roleRepository.saveAndFlush(new Role("ROLE_USER"));
+        Role role2 = roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
 
         startUser1.setPassword(passwordEncoder.encode(startUser1.getPassword()));
         startUser2.setPassword(passwordEncoder.encode(startUser2.getPassword()));
 
         startUser1.addRole(role1);
         startUser1.addRole(role2);
-        startUser2.addRole(role2);
+        startUser2.addRole(role1);
 
         userRepository.save(startUser1);
         userRepository.save(startUser2);
@@ -64,20 +60,11 @@ public class UserServiceImp implements UserService {
 
 
     @Override
+    @Transactional
     public void createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
-
- /*   public void createUser(User user, Set<Role> roles) {
-
-        for (Role role: roles) {
-            user.addRole(role);
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }*/
 
 
     @Override
@@ -93,16 +80,19 @@ public class UserServiceImp implements UserService {
         return userRepository.getUserByUsername(username);    }
 
 
+    @Transactional
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
 
     @Override
+    @Transactional
     public void update(User user) {
         userDao.update(user);
     }
 
+    @Transactional
     public void update(User user, Long id) {
         if (user.getFirstName() != null) {
             userRepository.getUserById(id).setFirstName(user.getFirstName());
@@ -126,15 +116,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void update(User user, Set<Role> roles) {
         userRepository.getUserByUsername(user.getUsername()).setRoles(roles);
     }
 
+    @Override
+    @Transactional
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void delete(User user) { userRepository.delete(user);}
 
     @Override
@@ -146,7 +140,7 @@ public class UserServiceImp implements UserService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName().toString()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
 

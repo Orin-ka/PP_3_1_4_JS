@@ -15,23 +15,21 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Column(name = "name")
-    private EnumRole name;
+    private String name;
 
     //@ManyToMany(mappedBy = "roles")
-    @ManyToMany
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-   // @Transient
-    Set<User> users;
+    //@ManyToMany
+    //@JoinTable(name = "user_roles",
+    //        joinColumns = @JoinColumn(name = "role_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    //@Transient
+    //Set<User> users;
 
     public Role() {}
-    public Role(EnumRole role) {
+    public Role(String role) {
         this.name = role;
     }
-    public Role(String str) {
-        this(EnumRole.valueOf(str));
-    }
+    //public Role(String str) {        this(EnumRole.valueOf(str));    }
 
 
 
@@ -39,31 +37,27 @@ public class Role implements GrantedAuthority {
         return id;
     }
 
-    public EnumRole getName() {
+    public String getName() {
         return name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
+    //public Set<User> getUsers() {        return users;    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(EnumRole name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+    //public void setUsers(Set<User> users) {        this.users = users;    }
 
 
 
     @Override
     public String getAuthority() {
-        return name.toString();
+        return name;
     }
 
     @Override
@@ -71,7 +65,7 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return  (this.name == (role.name));//enum можно сравнивать по ==
+        return  name.equals(role.name);
     }
 
     @Override

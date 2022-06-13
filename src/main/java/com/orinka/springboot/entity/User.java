@@ -34,8 +34,8 @@ public class User implements UserDetails {
     private String password;
 
 
-    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//связанные объекты загружаются вместе с родительскими
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)//, cascade = CascadeType.ALL)//связанные объекты загружаются вместе с родительскими
+    //@ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -96,7 +96,7 @@ public class User implements UserDetails {
     public String getStringRoles() {
         StringBuilder sb = new StringBuilder();
         for (Role role : roles) {
-            sb.append(role.getName().toString().substring(5));
+            sb.append(role.getName().substring(5));
             sb.append(" ");
         }
         return sb.toString();
