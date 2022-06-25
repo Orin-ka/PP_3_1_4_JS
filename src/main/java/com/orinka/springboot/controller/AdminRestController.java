@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +29,6 @@ public class AdminRestController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
-
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
@@ -40,10 +38,15 @@ public class AdminRestController {
             String error = getErrorsFromBindingResult(bindingResult);
             return new ResponseEntity<>(new ExceptionInfo(error), HttpStatus.BAD_REQUEST);
         }
-
-        userService.saveUser(user);
+        userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
@@ -58,7 +61,7 @@ public class AdminRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//----------------
+
 
     @PutMapping("/users/{id}")
     public ResponseEntity<ExceptionInfo> pageEdit(@PathVariable("id") long id,
@@ -68,7 +71,8 @@ public class AdminRestController {
             String error = getErrorsFromBindingResult(bindingResult);
             return new ResponseEntity<>(new ExceptionInfo(error), HttpStatus.BAD_REQUEST);
         }
-        userService.update(user, id);
+        user.setId(id);
+        userService.update(user);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

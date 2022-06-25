@@ -1,12 +1,10 @@
 package com.orinka.springboot.entity;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,24 +16,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 30)
-    private String firstName;
+    @Column(length = 30)
+    private String firstname;
 
-    @Column(name = "last_name", length = 30)
-    private String lastName;
+    @Column(length = 30)
+    private String lastname;
 
-    @Column(name = "job", length = 30)
+    @Column(length = 30)
     private String job;
 
-    @Column(name = "username", unique = true, length = 30)
+    @Column(unique = true, length = 30)
     private String username;
 
-    @Column(name = "password", length = 1000)
+    @Column(length = 1000)
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)//, cascade = CascadeType.ALL)//связанные объекты загружаются вместе с родительскими
-    //@ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -43,21 +40,21 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String firstName, String lastName, String job) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String firstname, String lastname, String job) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.job = job;
     }
 
-    public User(String firstName, String lastName, String job, String username, String password) {
-        this(firstName, lastName, job);
+    public User(String firstname, String lastname, String job, String username, String password) {
+        this(firstname, lastname, job);
         this.username = username;
         this.password = password;
 
     }
 
-    public User(String firstName, String lastName, String job, String username, String password, Set<Role> roles) {
-        this(firstName, lastName, job, username, password);
+    public User(String firstname, String lastname, String job, String username, String password, Set<Role> roles) {
+        this(firstname, lastname, job, username, password);
 
         for (Role role: roles) {
             this.addRole(role);
@@ -68,12 +65,12 @@ public class User implements UserDetails {
         return id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
     public String getJob() {
@@ -84,11 +81,12 @@ public class User implements UserDetails {
         return password;
     }
 
-    //добавить роль................
+    @Transactional
     public void addRole(Role role) {
         this.roles.add(role);
     }
 
+    @Transactional
     public Set<Role> getRoles() {
         return roles;
     }
@@ -107,12 +105,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public void setJob(String job) {

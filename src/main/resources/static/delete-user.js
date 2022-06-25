@@ -19,26 +19,30 @@ async function deleteUser(modal, id) {
                </div>
                
                <div class="form-group">
-                    <label for="firstname" class="com-form-label">FirstName:</label>
-                    <input type="text" class="form-control" id="firstname" value="${user.firstName}" readonly>
+                    <label for="firstname" class="com-form-label">Firstname:</label>
+                    <input type="text" class="form-control" id="firstname" value="${user.firstname}" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label for="lastname" class="com-form-label">LastName:</label>
-                    <input type="text" class="form-control" id="lastname" value="${user.lastName}" readonly>
+                    <label for="lastname" class="com-form-label">Lastname:</label>
+                    <input type="text" class="form-control" id="lastname" value="${user.lastname}" readonly>
                 </div>
                    
                <div class="form-group">
-                    <label for="username" class="col-form-label">Username</label>
+                    <label for="username" class="col-form-label">Username:</label>
                     <input type="text" class="form-control username" id="username" value="${user.username}" readonly>
+               </div>
+               
+               <div class="form-group">
+                    <label for="job" class="col-form-label">Job:</label>
+                    <input type="text" class="form-control " id="job" value="${user.job}" readonly>
                </div>
 
                 <div class="form-group">
-                <label for="roles" class="com-form-label">Roles:</label>
-                <select id="roles" class="form-control select" size="2" name="roles" style="max-height: 100px" disabled>
-                    <option>${user.roles.map(role => " " + role.name.substr(5))}</option>
-            <!--})}-->
-                </select>
+                    <label for="roles" class="com-form-label">Roles:</label>
+                    <select id="roles" class="form-control select" size="2" name="roles" style="max-height: 100px" disabled>
+                        <option>${user.roles.map(role => " " + role.name.substr(5))}</option>
+                    </select>
                 </div>
 
             </form>

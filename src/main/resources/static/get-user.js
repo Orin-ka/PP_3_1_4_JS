@@ -1,6 +1,6 @@
 let roleList = [
-    {id: 1, role: "ROLE_USER"},
-    {id: 2, role: "ROLE_ADMIN"}
+    {id: 1, name: "ROLE_USER"},
+    {id: 2, name: "ROLE_ADMIN"}
 ]
 let isUser = true;
 
@@ -56,8 +56,8 @@ async function getUser() {
             temp = `
                 <tr>
                     <td>${user.id}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
                     <td>${user.job}</td>
                     <td>${user.username}</td>
                     <td>${user.roles.map(e => " " + e.name.substr(5))}</td>
@@ -111,8 +111,8 @@ async function getUsers() {
                 temp += `
                 <tr>
                     <td>${user.id}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
                     <td>${user.job}</td>
                     <td>${user.username}</td>
                     <td>${user.roles.map(e => " " + e.name.substr(5))}</td>
@@ -120,11 +120,11 @@ async function getUsers() {
                     
 
                     <td>
-                        <button type="button" data-userid="${user.id}" data-action="edit" class="btn btn-info"
+                        <button type="button" data-id="${user.id}" data-action="edit" class="btn btn-info"
                             className data-toggle="modal" data-target="#editModal">Edit</button>
                     </td>
                     <td>
-                        <button type="button" data-userid="${user.id}" data-action="delete" class="btn btn-danger"
+                        <button type="button" data-id="${user.id}" data-action="delete" class="btn btn-danger"
                             className data-toggle="modal" data-target="#deleteModal">Delete</button>
                     </td>
                 </tr>
@@ -138,10 +138,10 @@ async function getUsers() {
         let defaultModal = $('#defaultModal');
 
         let targetButton = $(event.target);
-        let buttonUserId = targetButton.attr('data-userid');
+        let buttonUserId = targetButton.attr('data-id');
         let buttonAction = targetButton.attr('data-action');
 
-        defaultModal.attr('data-userid', buttonUserId);
+        defaultModal.attr('data-id', buttonUserId);
         defaultModal.attr('data-action', buttonAction);
         defaultModal.modal('show');
     })
@@ -162,7 +162,7 @@ async function getDefaultModal() {
         show: false
     }).on("show.bs.modal", (event) => {
         let thisModal = $(event.target);
-        let id = thisModal.attr('data-userid');
+        let id = thisModal.attr('data-id');
         let action = thisModal.attr('data-action');
         switch (action) {
             case 'edit':

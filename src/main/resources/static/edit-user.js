@@ -9,25 +9,26 @@ async function editUser(modal, id) {
     modal.find('.modal-footer').append(editButton);
     modal.find('.modal-footer').append(closeButton);
 
+
     user.then(user => {
         let bodyForm = `
             <form class="form-group text-center" id="editUser">
                <div class="form-group">
-                    <label for="userId" class="col-form-label">ID:</label>
-                    <input type="text" class="form-control username" id="userId" value="${user.id}" readonly>
+                    <label for="id" class="col-form-label">ID:</label>
+                    <input type="text" class="form-control username" id="id" value=${id} readonly>
                </div>
                
-               <div class="form-group">
-                    <label for="firstName" class="com-form-label">FirstName:</label>
-                    <input type="text" class="form-control" id="firstName" value="${user.firstName}">
+                <div class="form-group">
+                    <label for="firstname" class="com-form-label">Firstname:</label>
+                    <input type="text" name="firstname" class="form-control" id="firstname" value="${user.firstname}">
                 </div>
 
-                <div class="form-group">
-                    <label for="lastName" class="com-form-label">LastName:</label>
-                    <input type="text" class="form-control" id="lastName" value="${user.lastName}">
-                </div>
                 
-               <div class="form-group">
+                Lastname:
+                <input type="text" name="lastname"  class="form-control" id="lastname" value="${user.lastname}">
+                
+                
+                <div class="form-group">
                     <label for="job" class="com-form-label">Job:</label>
                     <input type="text" class="form-control" id="job" value="${user.job}">
                 </div> 
@@ -66,15 +67,15 @@ async function editUser(modal, id) {
             return array;
         }
         let id = modal.find("#id").val().trim();
-        let firstName = modal.find("#firstName").val().trim();
-        let lastName = modal.find("#lastName").val().trim();
+        let firstname = modal.find("#firstname").val().trim();
+        let lastname = modal.find("#lastname").val().trim();
         let job = modal.find("#job").val().trim();
         let username = modal.find("#username").val().trim();
         let password = modal.find("#password").val().trim();
         let data = {
             id: id,
-            firstName: firstName,
-            lastName: lastName,
+            firstname: firstname,
+            lastname: lastname,
             job: job,
             username: username,
             password: password,
